@@ -4,17 +4,18 @@ import threading
 
 
 print("......Welcome to python chating application.....")
-print("1:- for sending a message ")
-print("2:- for waiting to ")
+print("1:- for cilent ")
+print("2:- for server ")
+address = {}
 user = int(input())
 
 if user == 2:
     PORT = 6677
     HEADER = 64
     FORMAT = 'utf-8'
-    # HOSTNAME = socket.gethostname()
-    # SERVER = socket.gethostbyname(HOSTNAME)
-    SERVER = "20.0.4.26"
+    HOSTNAME = socket.gethostname()
+    SERVER = socket.gethostbyname(HOSTNAME)
+    # SERVER = "20.0.4.26"
     ADDR = (SERVER,PORT)
     server = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
     server.bind(ADDR)
@@ -51,6 +52,9 @@ if user == 2:
         server.listen()
         while True:
             conn,addr = server.accept()
+            address[addr] = conn
+            print("hii")
+            print(address)
             thread = threading.Thread(target=handle_cilent,args=(conn,addr))
             thread.start()
             
@@ -63,7 +67,7 @@ elif user == 1:
     FORMAT = "utf-8"
     # HOSTNAME = socket.gethostname()
     # SERVER = socket.gethostbyname(HOSTNAME)
-    SERVER = "20.0.4.26"
+    SERVER = "20.0.5.158"
     HEADER = 64
     ADDR = (SERVER,PORT)
     cilent = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
@@ -76,9 +80,10 @@ elif user == 1:
         send_length += b' ' * (HEADER - len(send_length))
         cilent.send(send_length)
         cilent.send(message)
-        print(cilent.recv(2048).decode(FORMAT))
+        
 
 
     while True:
-        cilent_message = input("Enter ur message:- ")
+        print(cilent.recv(2048).decode(FORMAT))
+        cilent_message = input()
         send(cilent_message)

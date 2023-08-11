@@ -52,7 +52,7 @@ def handle_cilent(conn,addr,name):
                 if msg_length :
                     msg_length = int(msg_length)
                     msg = conn.recv(msg_length).decode(FORMAT)
-                    # print(msg)
+                    print(msg)
                     if msg == DISCONNECT_MESSAGE:
                         connected = False
                 UserToSend = "Enter receiver's name" 
@@ -75,10 +75,10 @@ def start():
             msg_length = int(msg_length)
             msg = conn.recv(msg_length).decode(FORMAT)            
         add_person(addr,conn,msg)
-        # access_person(msg)
+        
         thread = threading.Thread(target=handle_cilent,args=(conn,addr,msg))
         thread.start()
-        # print(f"[ACTIVE CONNECTION] {threading.active_count()-1}" )
+        print(f"[ACTIVE CONNECTION] {threading.active_count()-1}" )
 
 print("[SERVER] server is starting...")
 start()
